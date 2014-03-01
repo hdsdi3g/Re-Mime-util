@@ -112,6 +112,10 @@ public class OpendesktopMimeDetector extends MimeDetector {
 			// repeat the check every 10 seconds
 			timer.schedule(task, new Date(), 10000);
 			
+			try {
+				raf.close();
+			} catch (Exception e) {
+			}
 		} catch (Exception e) {
 			throw new MimeException(e);
 		} finally {
@@ -682,7 +686,8 @@ public class OpendesktopMimeDetector extends MimeDetector {
 		
 		try {
 			if (mimeTypes.isEmpty() || mimeTypes.size() > 1) {
-				Collection _mimeTypes = getMimeTypesInputStream(in = new BufferedInputStream(in));
+				BufferedInputStream bis = new BufferedInputStream(in);
+				Collection _mimeTypes = getMimeTypesInputStream(bis);
 				
 				if (!_mimeTypes.isEmpty()) {
 					if (!mimeTypes.isEmpty()) {
